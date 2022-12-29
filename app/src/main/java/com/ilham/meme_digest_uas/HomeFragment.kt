@@ -1,5 +1,6 @@
 package com.ilham.meme_digest_uas
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.json.JSONObject
 
 
@@ -68,6 +70,18 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fabAdd.setOnClickListener {
+            activity?.let{
+                val intent = Intent (it, CreateMemeActivity::class.java)
+                it.startActivity(intent)
+            }
+
+        }
     }
 
     fun updateList() {

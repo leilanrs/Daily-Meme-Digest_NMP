@@ -6,7 +6,7 @@ data class Meme(
     val topText:String,
     val botText:String,
     val date:String,
-    val likeCount:Int,
+    var likeCount:Int,
     val userId:Int,
     val isLiked: Boolean,
 )
