@@ -1,5 +1,7 @@
 package com.ilham.meme_digest_uas
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +13,13 @@ import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_meme.view.*
 
-class MemeAdapter(val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter.MemeViewHolder>() {
+class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter.MemeViewHolder>() {
     class MemeViewHolder(val v: View): RecyclerView.ViewHolder(v)
+
+    companion object{
+        // constant key of ID
+        var ID = "ID"
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -56,7 +63,14 @@ class MemeAdapter(val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter.
             q.add(stringRequest)
         }
 
+//        var id=memes[position].id
+//        holder.v.btnComment.setOnClickListener {
+//            val intent = Intent(context, DetailMemeActivity::class.java)
+//            intent.putExtra(ID, id)
+//            context?.startActivity(intent)
+//        }
     }
+
 
     override fun getItemCount(): Int {
         return memes.size
