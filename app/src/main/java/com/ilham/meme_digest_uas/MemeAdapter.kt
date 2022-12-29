@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_meme.view.*
 
@@ -24,6 +27,35 @@ class MemeAdapter(val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter.
         holder.v.txtTopText.text = memes[position].topText
         holder.v.txtBotText.text = memes[position].botText
         holder.v.btnLike.text = memes[position].likeCount.toString()
+
+        val posisi = position
+        holder.v.btnLike.setOnClickListener {
+            val q = Volley.newRequestQueue(it.context)
+            val url = "https://ubaya.fun/flutter/160719052/nmp/likememe.php"
+
+            val stringRequest = object : StringRequest(
+                Request.Method.POST,
+                url,
+                {
+                    Log.d("cekparams", it)
+                    memes[posisi].likeCount++
+                    var newlikes= memes[position].likeCount
+                    holder.v.btnLike.text = "$newlikes LIKES"
+                },
+                {
+                    Log.e("cekparams", it.message.toString())
+                }
+            ) {
+                override fun getParams(): MutableMap<String, String>? {
+                    val map = HashMap<String, String>()
+                    map.set("id", memes[posisi].id.toString())
+                    return map
+                }
+            }
+
+            q.add(stringRequest)
+        }
+
     }
 
     override fun getItemCount(): Int {
