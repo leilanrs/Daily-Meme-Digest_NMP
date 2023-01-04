@@ -1,11 +1,13 @@
 package com.ilham.meme_digest_uas
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
@@ -17,8 +19,6 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
     class MemeViewHolder(val v: View): RecyclerView.ViewHolder(v)
 
     companion object{
-        // constant key of ID
-        var ID = "ID"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemeViewHolder {
@@ -46,7 +46,7 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
                 {
                     Log.d("cekparams", it)
                     memes[posisi].likeCount++
-                    var newlikes= memes[position].likeCount
+                    var newlikes = memes[position].likeCount
                     holder.v.btnLike.text = "$newlikes LIKES"
                 },
                 {
@@ -59,16 +59,18 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
                     return map
                 }
             }
-
             q.add(stringRequest)
         }
 
-//        var id=memes[position].id
-//        holder.v.btnComment.setOnClickListener {
-//            val intent = Intent(context, DetailMemeActivity::class.java)
-//            intent.putExtra(ID, id)
-//            context?.startActivity(intent)
-//        }
+
+        var id = memes[position].id
+        holder.v.btnComment.setOnClickListener {
+            Log.d("memeId", id.toString())
+            val activity = holder.v.context as Activity
+            val intent = Intent(activity, DetailMemeActivity::class.java)
+            intent.putExtra("memeIDForDetail", id)
+            holder.v.context.startActivity(intent)
+        }
     }
 
 
