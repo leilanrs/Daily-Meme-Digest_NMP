@@ -19,6 +19,7 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
     class MemeViewHolder(val v: View): RecyclerView.ViewHolder(v)
 
     companion object{
+        val memeIDForDetail = "memeIDForDetail"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemeViewHolder {
@@ -66,9 +67,9 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
         var id = memes[position].id
         holder.v.btnComment.setOnClickListener {
             Log.d("memeId", id.toString())
-            val activity = holder.v.context as Activity
+            val activity = holder.v.context as Context
             val intent = Intent(activity, DetailMemeActivity::class.java)
-            intent.putExtra("memeIDForDetail", id)
+            intent.putExtra(memeIDForDetail, id)
             holder.v.context.startActivity(intent)
         }
     }

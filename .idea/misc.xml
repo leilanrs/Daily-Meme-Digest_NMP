@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_detail_meme.xml" value="0.264" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/card_meme.xml" value="0.1721311475409836" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/fragment_my_creation.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/fragment_settings.xml" value="0.22826086956521738" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_detail_comment_item.xml" value="0.1" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_detail_meme.xml" value="0.25" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/card_comment.xml" value="0.25" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/card_meme.xml" value="0.20108695652173914" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_my_creation.xml" value="0.1" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_settings.xml" value="0.12273550724637682" />
         <entry key="..\:/uasnative/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_create_meme.xml" value="0.22" />
         <entry key="..\:/uasnative/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_detail_meme.xml" value="0.3333333333333333" />
         <entry key="..\:/uasnative/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_login.xml" value="0.1796875" />
