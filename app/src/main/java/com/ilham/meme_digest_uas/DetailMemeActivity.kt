@@ -95,5 +95,7 @@ class DetailMemeActivity : AppCompatActivity() {
         }
         qComment.add(stringRequestComment)
         Log.d("arrayComment", commentArray.toString())
+
+        btnBackDetail.setOnClickListener { finish() }
     }
 }

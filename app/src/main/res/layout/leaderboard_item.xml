@@ -23,17 +23,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imgAvaLeader"
-                android:layout_width="55dp"
-                android:layout_height="57dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView5"
+                android:layout_width="57dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgAvaLeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/txtNameLeaderboard"
@@ -42,7 +50,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="28dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/imgAvaLeader"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/cardView5"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -53,6 +62,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
                 app:icon="@drawable/ic_baseline_favorite_24"
+                app:iconTint="@color/red_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.915"
                 app:layout_constraintStart_toEndOf="@+id/txtNameLeaderboard"

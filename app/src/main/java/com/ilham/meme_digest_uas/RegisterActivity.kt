@@ -63,5 +63,9 @@ class RegisterActivity : AppCompatActivity() {
                 q.add(stringRequest)
             }
         }
+
+        btnBackRegister.setOnClickListener {
+            finish()
+        }
     }
 }

@@ -9,5 +9,5 @@ data class Meme(
     val date: String,
     var likeCount: Int,
     val userId: Int,
-    val isLiked: Boolean,
+    var isLiked: Boolean,
 )

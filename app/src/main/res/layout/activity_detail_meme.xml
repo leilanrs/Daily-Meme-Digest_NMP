@@ -73,6 +73,7 @@
                         android:layout_width="48dp"
                         android:layout_height="45dp"
                         app:icon="@drawable/ic_baseline_favorite_24"
+                        app:iconTint="@color/red_900"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.075"
                         app:layout_constraintStart_toStartOf="parent"
