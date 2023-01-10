@@ -38,29 +38,58 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
 
         val posisi = position
         holder.v.btnLike.setOnClickListener {
-            val q = Volley.newRequestQueue(it.context)
-            val url = "https://ubaya.fun/flutter/160719052/nmp/likememe.php"
+            if (!memes[posisi].isLiked) {
+                val q = Volley.newRequestQueue(it.context)
+                val url = "https://ubaya.fun/flutter/160719052/nmp/likememe.php"
 
-            val stringRequest = object : StringRequest(
-                Request.Method.POST,
-                url,
-                {
-                    Log.d("cekparams", it)
-                    memes[posisi].likeCount++
-                    var newlikes = memes[position].likeCount
-                    holder.v.btnLike.text = "$newlikes LIKES"
-                },
-                {
-                    Log.e("cekparams", it.message.toString())
+                val stringRequest = object : StringRequest(
+                    Request.Method.POST,
+                    url,
+                    {
+                        Log.d("cekparams", it)
+                        memes[posisi].likeCount++
+                        memes[posisi].isLiked = true
+                        var newlikes = memes[position].likeCount
+                        holder.v.btnLike.text = "$newlikes"
+                    },
+                    {
+                        Log.e("cekparams", it.message.toString())
+                    }
+                ) {
+                    override fun getParams(): MutableMap<String, String>? {
+                        val map = HashMap<String, String>()
+                        map.set("id", memes[posisi].id.toString())
+                        return map
+                    }
                 }
-            ) {
-                override fun getParams(): MutableMap<String, String>? {
-                    val map = HashMap<String, String>()
-                    map.set("id", memes[posisi].id.toString())
-                    return map
+                q.add(stringRequest)
+            } else if (memes[posisi].isLiked) {
+                val q = Volley.newRequestQueue(it.context)
+                val url = "https://ubaya.fun/flutter/160719052/nmp/dislikememe.php"
+
+                val stringRequest = object : StringRequest(
+                    Request.Method.POST,
+                    url,
+                    {
+                        Log.d("cekparams", it)
+                        memes[posisi].likeCount--
+                        memes[posisi].isLiked = false
+                        var newlikes = memes[position].likeCount
+                        holder.v.btnLike.text = "$newlikes"
+                    },
+                    {
+                        Log.e("cekparams", it.message.toString())
+                    }
+                ) {
+                    override fun getParams(): MutableMap<String, String>? {
+                        val map = HashMap<String, String>()
+                        map.set("id", memes[posisi].id.toString())
+                        return map
+                    }
                 }
+                q.add(stringRequest)
             }
-            q.add(stringRequest)
+
         }
 
 
