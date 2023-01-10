@@ -30,7 +30,8 @@ class LeaderboadAdapter ( val leaderboards: ArrayList<Leaderboard>): RecyclerVie
         if(leaderboards[position].privacy!=1){
         holder.v.txtNameLeaderboard.text = leaderboards[position].first_name +" "+ leaderboards[position].last_name
         }else{
-
+            //belum di substring ***
+            holder.v.txtNameLeaderboard.text = leaderboards[position].first_name +" "+ leaderboards[position].last_name
         }
         holder.v.btnLikeLeaderboard.text = leaderboards[position].total_likes.toString()
 
