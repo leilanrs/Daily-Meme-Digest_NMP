@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imgAvaLeader"
                 android:layout_width="55dp"
                 android:layout_height="57dp"
                 android:layout_marginStart="16dp"
@@ -36,7 +36,7 @@
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imgAvaLeader"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button

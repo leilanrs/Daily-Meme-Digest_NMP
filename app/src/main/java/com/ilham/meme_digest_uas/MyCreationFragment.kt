@@ -24,8 +24,6 @@ class MyCreationFragment : Fragment() {
 
     var memes:ArrayList<Meme> = ArrayList()
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var sharedName = context?.packageName

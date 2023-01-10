@@ -1,15 +1,19 @@
 package com.ilham.meme_digest_uas
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONObject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -17,16 +21,41 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class LeaderboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    var leaderboards:ArrayList<Leaderboard> = ArrayList();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        val q = Volley.newRequestQueue(activity)
+        val url = "https://ubaya.fun/flutter/160719052/nmp/get_userranks.php"
+        var stringRequest = StringRequest(
+            Request.Method.POST,
+            url,
+            {
+                Log.d("alluser", it)
+                val obj = JSONObject(it)
+                if (obj.getString("result") == "success") {
+                    val data = obj.getJSONArray("data")
+                    for (i in 0 until data.length()) {
+                        val leaderObj = data.getJSONObject(i)
+                        val leaderboard = Leaderboard(
+                            leaderObj.getString("avatar_link"),
+                            leaderObj.getString("first_name"),
+                            leaderObj.getString("last_name"),
+                            leaderObj.getString("privacy"),
+                            leaderObj.getInt("total_like"),
+                        )
+                        leaderboards.add(leaderboard)
+                    }
+                    updateList()
+                }
+                Log.d("isiarray", leaderboards.toString())
+            },
+            {
+                Response.ErrorListener { Log.e("alluser", it.message.toString()) }
+            }
+        )
+        q.add(stringRequest)
     }
 
     override fun onCreateView(
@@ -35,6 +64,14 @@ class LeaderboardFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_leaderboard, container, false)
+    }
+
+    fun updateList() {
+        val lm: LinearLayoutManager = LinearLayoutManager(activity)
+        val rv = view?.findViewById<RecyclerView>(R.id.leaderboardView)
+        rv?.layoutManager = lm
+        rv?.setHasFixedSize(true)
+        rv?.adapter = LeaderboadAdapter(leaderboards)
     }
 
     companion object {
@@ -51,8 +88,6 @@ class LeaderboardFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             LeaderboardFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
