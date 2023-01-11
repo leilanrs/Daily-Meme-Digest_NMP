@@ -1,14 +1,20 @@
 package com.ilham.meme_digest_uas
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -17,6 +23,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.json.JSONObject
+import java.util.jar.Manifest
 
 
 class SettingsFragment : Fragment() {
@@ -27,6 +34,7 @@ class SettingsFragment : Fragment() {
 //    var avatarLink = ""
 //    var privacy = ""
     var userId = ""
+    val REQ_IMAGE_CAPTURE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +84,40 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    fun takePicture() {
+        val i = Intent()
+        i.action = MediaStore.ACTION_IMAGE_CAPTURE
+        startActivityForResult(i, REQ_IMAGE_CAPTURE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode) {
+            REQ_IMAGE_CAPTURE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    takePicture()
+                } else {
+                    Toast.makeText(requireContext(), "You need to grant permissions to access the camera.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQ_IMAGE_CAPTURE) {
+                val extras = data!!.extras
+                val imageBitmap: Bitmap = extras!!.get("data") as Bitmap
+                imgSetting.setImageBitmap(imageBitmap)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var sharedName= activity?.packageName
@@ -87,6 +129,14 @@ class SettingsFragment : Fragment() {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
             this.requireActivity().finish()
+        }
+
+        imgSetting.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CAMERA), REQ_IMAGE_CAPTURE)
+            } else {
+                takePicture()
+            }
         }
 
         btnSaveChanges.setOnClickListener {
