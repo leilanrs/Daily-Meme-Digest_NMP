@@ -93,12 +93,7 @@ class DetailMemeActivity : AppCompatActivity() {
                         commentArray.add(comment)
                         Log.d("isiCommentArray", commentArray.toString())
                     }
-//                    updateList()
-                    val lm = LinearLayoutManager(this)
-                    val rv = findViewById<RecyclerView>(R.id.commentsView)
-                    rv.layoutManager = lm
-                    rv.setHasFixedSize(true)
-                    rv.adapter = CommentAdapter(commentArray)
+                    updateList()
                 }
             },
             {
@@ -121,6 +116,6 @@ class DetailMemeActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.commentsView)
         rv.layoutManager = lm
         rv.setHasFixedSize(true)
-        rv.adapter = CommentAdapter(commentArray)
+        rv.adapter = CommentAdapter( commentArray)
     }
 }

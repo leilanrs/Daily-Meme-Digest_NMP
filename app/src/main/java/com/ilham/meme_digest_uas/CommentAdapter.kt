@@ -18,6 +18,7 @@ class CommentAdapter(val comments:ArrayList<Comment>): RecyclerView.Adapter<Comm
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.v.txtNameComment.text = comments[position].username
         holder.v.txtIsiComment.text = comments[position].comment
+        holder.v.txtDateComment.text=comments[position].date
     }
 
     override fun getItemCount(): Int {
