@@ -10,4 +10,5 @@ data class Meme(
     var likeCount: Int,
     val userId: Int,
     var isLiked: Boolean,
+    var totalComments:Int
 )

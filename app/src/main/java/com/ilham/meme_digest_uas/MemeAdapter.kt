@@ -34,8 +34,8 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
         Picasso.get().load(url).into(holder.v.imgMeme)
         holder.v.txtTopText.text = memes[position].topText
         holder.v.txtBotText.text = memes[position].botText
-        holder.v.btnLike.text = memes[position].likeCount.toString()
-
+        holder.v.btnLike.text = memes[position].likeCount.toString()+" Likes"
+        holder.v.btnComment.text = memes[position].totalComments.toString()+" Comments"
         val posisi = position
         holder.v.btnLike.setOnClickListener {
             if (!memes[posisi].isLiked) {
@@ -50,7 +50,7 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
                         memes[posisi].likeCount++
                         memes[posisi].isLiked = true
                         var newlikes = memes[position].likeCount
-                        holder.v.btnLike.text = "$newlikes"
+                        holder.v.btnLike.text = "$newlikes Likes"
                     },
                     {
                         Log.e("cekparams", it.message.toString())
@@ -75,7 +75,7 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
                         memes[posisi].likeCount--
                         memes[posisi].isLiked = false
                         var newlikes = memes[position].likeCount
-                        holder.v.btnLike.text = "$newlikes"
+                        holder.v.btnLike.text = "$newlikes Likes"
                     },
                     {
                         Log.e("cekparams", it.message.toString())

@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
                             memeObj.getInt("like_count"),
                             memeObj.getInt("users_id"),
                             false,
+                            memeObj.getInt("totalComments"),
                         )
                         memes.add(meme)
                     }

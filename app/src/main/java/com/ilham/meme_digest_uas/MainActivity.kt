@@ -56,12 +56,10 @@ class MainActivity : AppCompatActivity() {
         drawerToggle.syncState()
         navView.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.itemHome -> Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
-                R.id.itemMyCreation -> Toast.makeText(this, "My Creation", Toast.LENGTH_SHORT)
-                    .show()
-                R.id.itemLeaderboard -> Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT)
-                    .show()
-                R.id.itemSetting -> Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+                R.id.itemHome -> viewPager.currentItem=0
+                R.id.itemMyCreation -> viewPager.currentItem=1
+                R.id.itemLeaderboard -> viewPager.currentItem=2
+                R.id.itemSetting -> viewPager.currentItem=3
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true

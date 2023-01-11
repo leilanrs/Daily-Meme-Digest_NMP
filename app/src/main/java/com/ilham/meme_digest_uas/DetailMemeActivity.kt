@@ -1,11 +1,15 @@
 package com.ilham.meme_digest_uas
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
+import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
@@ -43,6 +47,7 @@ class DetailMemeActivity : AppCompatActivity() {
                             detailObj.getInt("like_count"),
                             detailObj.getInt("users_id"),
                             false,
+                            detailObj.getInt("totalComments"),
                         )
                         memeArray.add(detailMeme)
                         Log.d("isiMemeArray", memeArray.toString())
@@ -50,7 +55,7 @@ class DetailMemeActivity : AppCompatActivity() {
                             Picasso.get().load(memeArray[i].memeUrl).into(imgViewDetail)
                             txtTopDetail.text = memeArray[i].topText
                             txtBottomDetail.text = memeArray[i].botText
-                            btnDetailLike.text = memeArray[i].likeCount.toString()
+                            btnDetailLike.text = memeArray[i].likeCount.toString()+" Likes"
                         }
                     }
                 }
@@ -108,6 +113,45 @@ class DetailMemeActivity : AppCompatActivity() {
         }
         qComment.add(stringRequestComment)
 
+        txtInputComment.addTextChangedListener {
+            btnSend.isEnabled = !txtInputComment.text.isNullOrEmpty()
+        }
+
+        btnSend.setOnClickListener {
+            var sharedName = packageName
+            var shared = getSharedPreferences(sharedName, Context.MODE_PRIVATE)
+            var userId = shared.getString("ACTIVEUSERID", null)
+
+            var inputComment = txtInputComment.text
+            val q = Volley.newRequestQueue(this)
+            val url = "https://ubaya.fun/flutter/160719052/nmp/newcomment.php"
+            var stringRequest = object:StringRequest(
+                Request.Method.POST, url,
+                Response.Listener<String> {
+                    Log.d("cekSendComment", it)
+                    val obj = JSONObject(it)
+                    if (obj.getString("result") == "success") {
+                        Toast.makeText(this, "Comment added Successfully", Toast.LENGTH_SHORT).show()
+
+                    }else{
+                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                Response.ErrorListener {
+                    Log.e("apiresult", it.message.toString())
+                }
+            ){
+                override fun getParams(): MutableMap<String, String> {
+                    val params = HashMap<String, String>()
+                    params["memes_id"] = id.toString()
+                    params["users_id"] = userId.toString()
+                    params["comment"]=inputComment.toString()
+                    return params
+                }
+            }
+            q.add(stringRequest)
+        }
+
         btnBackDetail.setOnClickListener { finish() }
     }
 
@@ -118,4 +162,5 @@ class DetailMemeActivity : AppCompatActivity() {
         rv.setHasFixedSize(true)
         rv.adapter = CommentAdapter( commentArray)
     }
+
 }
