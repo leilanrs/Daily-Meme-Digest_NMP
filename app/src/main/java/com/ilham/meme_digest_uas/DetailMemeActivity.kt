@@ -4,19 +4,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_meme.*
 import org.json.JSONObject
 
 class DetailMemeActivity : AppCompatActivity() {
+    var memeArray:ArrayList<Meme> = ArrayList()
+    var commentArray:ArrayList<Comment> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_meme)
-
-        var memeArray:ArrayList<Meme> = ArrayList()
-        var commentArray:ArrayList<Comment> = ArrayList()
 
         var id = intent.getIntExtra(MemeAdapter.memeIDForDetail, 0)
         Log.d("memeId in detail", id.toString())
@@ -43,6 +45,13 @@ class DetailMemeActivity : AppCompatActivity() {
                             false,
                         )
                         memeArray.add(detailMeme)
+                        Log.d("isiMemeArray", memeArray.toString())
+                        for (i in 0 until memeArray.size) {
+                            Picasso.get().load(memeArray[i].memeUrl).into(imgViewDetail)
+                            txtTopDetail.text = memeArray[i].topText
+                            txtBottomDetail.text = memeArray[i].botText
+                            btnDetailLike.text = memeArray[i].likeCount.toString()
+                        }
                     }
                 }
             },
@@ -58,7 +67,9 @@ class DetailMemeActivity : AppCompatActivity() {
             }
         }
         qMeme.add(stringRequestMeme)
-        Log.d("arrayMeme", memeArray.toString())
+//        for(element in memeArray) {
+//            Picasso.get().load(memeArray[i].memeUrl).into(imgViewDetail)
+//        }
 
         val qComment = Volley.newRequestQueue(this)
         val urlComment = "https://ubaya.fun/flutter/160719052/nmp/getcomments.php"
@@ -80,7 +91,14 @@ class DetailMemeActivity : AppCompatActivity() {
                             commentObj.getString("username"),
                         )
                         commentArray.add(comment)
+                        Log.d("isiCommentArray", commentArray.toString())
                     }
+//                    updateList()
+                    val lm = LinearLayoutManager(this)
+                    val rv = findViewById<RecyclerView>(R.id.commentsView)
+                    rv.layoutManager = lm
+                    rv.setHasFixedSize(true)
+                    rv.adapter = CommentAdapter(commentArray)
                 }
             },
             {
@@ -94,8 +112,15 @@ class DetailMemeActivity : AppCompatActivity() {
             }
         }
         qComment.add(stringRequestComment)
-        Log.d("arrayComment", commentArray.toString())
 
         btnBackDetail.setOnClickListener { finish() }
+    }
+
+    fun updateList() {
+        val lm = LinearLayoutManager(this)
+        val rv = findViewById<RecyclerView>(R.id.commentsView)
+        rv.layoutManager = lm
+        rv.setHasFixedSize(true)
+        rv.adapter = CommentAdapter(commentArray)
     }
 }

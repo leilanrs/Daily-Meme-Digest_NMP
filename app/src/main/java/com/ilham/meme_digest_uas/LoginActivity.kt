@@ -22,11 +22,13 @@ class LoginActivity : AppCompatActivity() {
 
         var sharedName = packageName
         var shared = getSharedPreferences(sharedName, Context.MODE_PRIVATE)
-        var username = shared.getString("USERNAME", null)
-        if (username != null) {
-            txtUsername.setText(username);
+
+        var activeInfo = shared.getString("USERINFO", "")
+        if (activeInfo != "") {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
-        shared.edit().clear().apply()
 
         btnOpenRegistration.setOnClickListener {
             val intentRegistration = Intent(this, RegisterActivity::class.java)
@@ -41,10 +43,9 @@ class LoginActivity : AppCompatActivity() {
             val q = Volley.newRequestQueue(this)
             val url = "https://ubaya.fun/flutter/160719052/nmp/login.php"
             var stringRequest = object : StringRequest(
-                Request.Method.POST,
+                Method.POST,
                 url,
                 {
-//                        sukses
                     Log.d("apiresult", it)
                     val obj = JSONObject(it)
                     if (obj.getString("result") == "success") {
@@ -56,13 +57,11 @@ class LoginActivity : AppCompatActivity() {
                         var userPrivacy = obj.getString("privacy")
                         Log.d("userinfo", "$userId, $userFirstName, $userLastName, $userUsername, $userAvatar, $userPrivacy")
                         intent.putExtra("USERINFO", "$userId||$userFirstName||$userLastName||$userUsername||$userAvatar||$userPrivacy")
+                        editor.putString("USERINFO", "$userId||$userFirstName||$userLastName||$userUsername||$userAvatar||$userPrivacy")
                         editor.putString("ACTIVEUSERID", userId)
+                        editor.apply()
                         startActivity(intent)
                         finish()
-                        if (username == null) {
-                            editor.putString("USERNAME", inputUsername)
-                            editor.apply()
-                        }
                     } else {
                         Toast.makeText(this, "Username atau password tidak sesuai", Toast.LENGTH_SHORT).show()
                     }

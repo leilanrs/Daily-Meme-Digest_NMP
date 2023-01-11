@@ -42,14 +42,14 @@ class LeaderboardFragment : Fragment() {
                             leaderObj.getString("avatar_link"),
                             leaderObj.getString("first_name"),
                             leaderObj.getString("last_name"),
-                            leaderObj.getString("privacy"),
                             leaderObj.getInt("total_like"),
+                            leaderObj.getInt("privacy"),
                         )
                         leaderboards.add(leaderboard)
                     }
                     updateList()
                 }
-                Log.d("isiarray", leaderboards.toString())
+                Log.d("isiLeaderboard", leaderboards.toString())
             },
             {
                 Response.ErrorListener { Log.e("alluser", it.message.toString()) }

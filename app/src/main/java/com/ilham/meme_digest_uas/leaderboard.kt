@@ -4,6 +4,6 @@ data class Leaderboard(
     val avatar:String,
     val first_name:String,
     val last_name:String,
-    val total_likes:String,
+    val total_likes:Int,
     val privacy: Int
 )

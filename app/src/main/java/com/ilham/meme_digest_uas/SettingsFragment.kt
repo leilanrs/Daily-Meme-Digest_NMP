@@ -13,6 +13,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.json.JSONObject
@@ -20,43 +21,37 @@ import org.json.JSONObject
 
 class SettingsFragment : Fragment() {
 
-    private var firstName =""
-    private var lastName = ""
+//    var firstName = "";
+//    var lastName = "";
+//    var username = "";
+//    var avatarLink = ""
+//    var privacy = ""
+    var userId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var sharedName= "com.ilham.meme_digest_uas"
+        var sharedName= activity?.packageName
         var shared = this.requireActivity().getSharedPreferences(sharedName, Context.MODE_PRIVATE)
-        var userId = shared?.getString("ACTIVEUSERID", null)
-        Log.d("userid",userId.toString())
-
-
-//        var username =""
-//        var regist_date=""
-//        var avatar = ""
-//        var privacy = 0
+        userId = shared.getString("ACTIVEUSERID", "").toString()
 
         val q = Volley.newRequestQueue(activity)
         val url = "https://ubaya.fun/flutter/160719052/nmp/detail_user.php"
         var stringRequest = object:StringRequest(
-            Request.Method.POST, url,
+            Method.POST, url,
             Response.Listener<String> {
                 Log.d("apiresult", it)
                 val obj = JSONObject(it)
                 if (obj.getString("result") == "success") {
-                    firstName=obj.getString("first_name")
-                    Log.d("firstname",firstName)
-                    txtFirstLastName.text =  obj.getString("first_name")+" "+ obj.getString("last_name")
-                    txtActiveMonth.text = "Active since "+obj.getString("registration_date")
-                    txtUsernameSettings.text="@"+obj.getString("username")
+                    txtFirstLastName.text =  obj.getString("first_name") + " " + obj.getString("last_name")
+                    txtActiveMonth.text = "Active since " + obj.getString("registration_date")
+                    txtUsernameSettings.text= "@"+obj.getString("username")
                     txtFirstNameSettings.setText( obj.getString("first_name"))
                     txtLastNameSettings.setText(obj.getString("last_name"))
-                    if(obj.getString("privacy")=="1"){
-                        checkBoxHideMyName.isChecked=true
-                    }
+                    Picasso.get().load(obj.getString("avatar_link")).into(imgSetting)
+                    checkBoxHideMyName.isChecked = obj.getString("privacy") == "1"
 
-                }else{
+                } else {
                     Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                 }
             },
@@ -71,9 +66,6 @@ class SettingsFragment : Fragment() {
             }
         }
         q.add(stringRequest)
-//        txtActiveMonth.text="Active since "+ regist_date
-//        txtUsernameSettings.text=username
-
     }
 
     override fun onCreateView(
@@ -86,17 +78,22 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var sharedName= "com.ilham.meme_digest_uas"
+        var sharedName= activity?.packageName
         var shared = this.requireActivity().getSharedPreferences(sharedName, Context.MODE_PRIVATE)
-        var userId = shared?.getString("ACTIVEUSERID", null)
-        var privacy=0;
+        userId = shared.getString("ACTIVEUSERID", "").toString()
+
+        fabLogout.setOnClickListener {
+            shared.edit().clear().apply()
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+            this.requireActivity().finish()
+        }
 
         btnSaveChanges.setOnClickListener {
-            firstName=txtFirstNameSettings.text.toString()
-            lastName=txtLastNameSettings.text.toString()
-            if(checkBoxHideMyName.isChecked==true){
-                privacy=1;
-            }
+            var inputFirstName = txtFirstNameSettings.text
+            var inputLastName = txtLastNameSettings.text
+            var inputPrivacy = checkBoxHideMyName.isChecked
+            Log.d("PRIVACY", inputPrivacy.toString())
             val q = Volley.newRequestQueue(activity)
             val url = "https://ubaya.fun/flutter/160719052/nmp/updateProfile.php"
             var stringRequest = object:StringRequest(
@@ -105,8 +102,8 @@ class SettingsFragment : Fragment() {
                     Log.d("apiresult", it)
                     val obj = JSONObject(it)
                     if (obj.getString("result") == "success") {
-                        Toast.makeText(activity, "Update Succes", Toast.LENGTH_SHORT).show()
-                        txtFirstLastName.setText(firstName+" "+lastName)
+                        Toast.makeText(activity, "Update Success", Toast.LENGTH_SHORT).show()
+                        txtFirstLastName.setText("$inputFirstName $inputLastName")
                     }else{
                         Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                     }
@@ -117,10 +114,14 @@ class SettingsFragment : Fragment() {
             ){
                 override fun getParams(): MutableMap<String, String> {
                     val params = HashMap<String, String>()
-                    params["first_name"] = firstName
-                    params["last_name"] = lastName
-                    params["privacy"] = privacy.toString()
-                    params["users_id"] = userId.toString()
+                    params["first_name"] = inputFirstName.toString()
+                    params["last_name"] = inputLastName.toString()
+                    var savePrivacy: Int
+                    if (inputPrivacy) {
+                        savePrivacy = 1
+                    } else savePrivacy = 0
+                    params["privacy"] = savePrivacy.toString()
+                    params["users_id"] = userId
                     return params
                 }
             }

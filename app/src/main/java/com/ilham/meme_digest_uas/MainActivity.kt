@@ -1,7 +1,9 @@
 package com.ilham.meme_digest_uas
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawer_layout)
 
+        var sharedName = packageName
+        var shared = getSharedPreferences(sharedName, Context.MODE_PRIVATE)
+        var userinfo = shared.getString("USERINFO", "")
+
+        Log.d("ISIINTENT", intent.getStringExtra("USERINFO").toString())
+        Log.d("ISISP", userinfo.toString())
 
         fragments.add(HomeFragment())
         fragments.add(MyCreationFragment())
@@ -49,10 +57,10 @@ class MainActivity : AppCompatActivity() {
         drawerToggle.syncState()
         navView.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.itemHome -> Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
-                R.id.itemMyCreation -> Toast.makeText(this, "My Creation", Toast.LENGTH_SHORT).show()
-                R.id.itemLeaderboard -> Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show()
-                R.id.itemSetting -> Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+                R.id.itemHome -> viewPager.currentItem = 0
+                R.id.itemMyCreation -> viewPager.currentItem = 1
+                R.id.itemLeaderboard -> viewPager.currentItem = 2
+                R.id.itemSetting -> viewPager.currentItem = 3
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
