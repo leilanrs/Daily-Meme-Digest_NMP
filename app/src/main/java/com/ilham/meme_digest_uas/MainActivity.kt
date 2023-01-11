@@ -1,9 +1,9 @@
 package com.ilham.meme_digest_uas
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -11,6 +11,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.drawer_header.*
 import kotlinx.android.synthetic.main.drawer_layout.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,12 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawer_layout)
 
-        var sharedName = packageName
-        var shared = getSharedPreferences(sharedName, Context.MODE_PRIVATE)
-        var userinfo = shared.getString("USERINFO", "")
-
-        Log.d("ISIINTENT", intent.getStringExtra("USERINFO").toString())
-        Log.d("ISISP", userinfo.toString())
 
         fragments.add(HomeFragment())
         fragments.add(MyCreationFragment())
@@ -49,6 +44,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        var sharedName = packageName
+        var shared = getSharedPreferences(sharedName, Context.MODE_PRIVATE)
+
+        var username = shared.getString("USERNAME", "")
+        txtUsernameDrawer.text=username.toString()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         var drawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.app_name,
@@ -57,14 +58,25 @@ class MainActivity : AppCompatActivity() {
         drawerToggle.syncState()
         navView.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.itemHome -> viewPager.currentItem = 0
-                R.id.itemMyCreation -> viewPager.currentItem = 1
-                R.id.itemLeaderboard -> viewPager.currentItem = 2
-                R.id.itemSetting -> viewPager.currentItem = 3
+                R.id.itemHome -> Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
+                R.id.itemMyCreation -> Toast.makeText(this, "My Creation", Toast.LENGTH_SHORT)
+                    .show()
+                R.id.itemLeaderboard -> Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT)
+                    .show()
+                R.id.itemSetting -> Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+
+//        fabLogoutDrawer.setOnClickListener {
+//            var sharedName = packageName
+//            var shared = getSharedPreferences(sharedName, Context.MODE_PRIVATE)
+//            shared.edit().clear().apply()
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
 
 
     }

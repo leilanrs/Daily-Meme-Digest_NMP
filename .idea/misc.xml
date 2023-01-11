@@ -3,25 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_detail_meme.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/card_comment.xml" value="0.4" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/card_meme.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/drawer_layout.xml" value="0.2109375" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/fragment_home.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Daily-Meme-Digest_NMP/app/src/main/res/layout/fragment_settings.xml" value="0.4" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/card_meme.xml" value="0.1721311475409836" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/fragment_my_creation.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/meme_digest_uas/app/src/main/res/layout/fragment_settings.xml" value="0.22826086956521738" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1385" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_create_meme.xml" value="0.16621376811594202" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_detail_meme.xml" value="0.25" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/card_comment.xml" value="0.16621376811594202" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/card_meme.xml" value="0.1" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/drawer_header.xml" value="0.33" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/drawer_layout.xml" value="0.16621376811594202" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_home.xml" value="0.1743659420289855" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_leaderboard.xml" value="0.1743659420289855" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_my_creation.xml" value="0.1743659420289855" />
         <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
-        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/leaderboard_item.xml" value="0.2612359550561798" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/layout/leaderboard_item.xml" value="0.5" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/nmp/uas/meme_digest_uas/app/src/main/res/menu/drawer_menu.xml" value="0.203125" />
         <entry key="..\:/uasnative/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_create_meme.xml" value="0.22" />
         <entry key="..\:/uasnative/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_detail_meme.xml" value="0.3333333333333333" />
         <entry key="..\:/uasnative/Daily-Meme-Digest_NMP/app/src/main/res/layout/activity_login.xml" value="0.1796875" />

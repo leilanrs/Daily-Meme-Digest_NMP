@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/blank_img_preview" />
 
     <TextView
         android:id="@+id/textView5"
@@ -124,6 +124,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:fontFamily="@font/anton"
+        android:shadowColor="@color/black"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="1.6"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -137,6 +141,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
         android:fontFamily="@font/anton"
+        android:shadowColor="@color/black"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="1.6"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/white"
