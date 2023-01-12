@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,7 +25,9 @@ import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_settings.*
+import okio.ByteString
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.util.jar.Manifest
 
 
@@ -114,6 +119,34 @@ class SettingsFragment : Fragment() {
                 val extras = data!!.extras
                 val imageBitmap: Bitmap = extras!!.get("data") as Bitmap
                 imgSetting.setImageBitmap(imageBitmap)
+                val stream = ByteArrayOutputStream()
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                val bytes = stream.toByteArray()
+                val sImage = Base64.encodeToString(bytes, Base64.DEFAULT)
+                val q = Volley.newRequestQueue(activity)
+                val url = "https://ubaya.fun/flutter/160719052/nmp/updateavatar.php"
+                val stringRequest = object : StringRequest(
+                    Method.POST, url,
+                    {
+                        val obj = JSONObject(it)
+                        if (obj.getString("result") == "success") {
+                            Toast.makeText(activity, "Update Success", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    {
+                        Log.e("updateAvatarResult", it.message.toString())
+                    }
+                ) {
+                    override fun getParams(): MutableMap<String, String>? {
+                        val params = HashMap<String, String>()
+                        params["users_id"] = userId
+                        params["image"] = sImage
+                        return params
+                    }
+                }
+                q.add(stringRequest)
             }
         }
     }
@@ -147,7 +180,7 @@ class SettingsFragment : Fragment() {
             val q = Volley.newRequestQueue(activity)
             val url = "https://ubaya.fun/flutter/160719052/nmp/updateProfile.php"
             var stringRequest = object:StringRequest(
-                Request.Method.POST, url,
+                Method.POST, url,
                 Response.Listener<String> {
                     Log.d("apiresult", it)
                     val obj = JSONObject(it)
