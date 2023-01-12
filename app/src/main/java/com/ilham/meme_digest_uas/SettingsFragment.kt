@@ -1,7 +1,9 @@
 package com.ilham.meme_digest_uas
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -33,13 +35,9 @@ import java.util.jar.Manifest
 
 class SettingsFragment : Fragment() {
 
-//    var firstName = "";
-//    var lastName = "";
-//    var username = "";
-//    var avatarLink = ""
-//    var privacy = ""
     var userId = ""
     val REQ_IMAGE_CAPTURE = 1
+    val REQ_IMAGE_PICK=2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +93,15 @@ class SettingsFragment : Fragment() {
         startActivityForResult(i, REQ_IMAGE_CAPTURE)
     }
 
+    fun pickImageGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        intent.putExtra("outputFormat",
+            Bitmap.CompressFormat.JPEG.toString())
+        startActivityForResult(intent, REQ_IMAGE_PICK)
+
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -105,6 +112,7 @@ class SettingsFragment : Fragment() {
             REQ_IMAGE_CAPTURE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     takePicture()
+                    pickImageGallery()
                 } else {
                     Toast.makeText(requireContext(), "You need to grant permissions to access the camera.", Toast.LENGTH_SHORT).show()
                 }
@@ -115,7 +123,7 @@ class SettingsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQ_IMAGE_CAPTURE) {
+            if (requestCode == REQ_IMAGE_CAPTURE ) {
                 val extras = data!!.extras
                 val imageBitmap: Bitmap = extras!!.get("data") as Bitmap
                 imgSetting.setImageBitmap(imageBitmap)
@@ -148,6 +156,45 @@ class SettingsFragment : Fragment() {
                 }
                 q.add(stringRequest)
             }
+            if (requestCode == REQ_IMAGE_PICK ) {
+                val uri = data?.data
+                if (uri != null) {
+                    imgSetting.setImageURI(uri)
+                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver,uri)
+                    var imageBitmap: Bitmap? = null
+                    imageBitmap = bitmap
+                    val stream = ByteArrayOutputStream()
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                    val bytes = stream.toByteArray()
+                    val sImage = Base64.encodeToString(bytes, Base64.DEFAULT)
+                    Log.d("hasilimage", sImage)
+                    val q = Volley.newRequestQueue(activity)
+                    val url = "https://ubaya.fun/flutter/160719052/nmp/updateavatar.php"
+                    val stringRequest = object : StringRequest(
+                        Method.POST, url,
+                        {
+                            val obj = JSONObject(it)
+                            if (obj.getString("result") == "success") {
+                                Toast.makeText(activity, "Update Success", Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                        {
+                            Log.e("updateAvatarResult", it.message.toString())
+                        }
+                    ) {
+                        override fun getParams(): MutableMap<String, String>? {
+                            val params = HashMap<String, String>()
+                            params["users_id"] = userId
+                            params["image"] = sImage
+                            return params
+                        }
+                    }
+                    q.add(stringRequest)
+                }
+
+            }
         }
     }
 
@@ -158,19 +205,36 @@ class SettingsFragment : Fragment() {
         userId = shared.getString("ACTIVEUSERID", "").toString()
 
         fabLogout.setOnClickListener {
-            shared.edit().clear().apply()
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
-            this.requireActivity().finish()
+            val alert = android.app.AlertDialog.Builder(activity)
+            alert.setTitle("Daily Meme Digest")
+            alert.setMessage("Are you sure you want to logout?")
+            alert.setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
+                shared.edit().clear().apply()
+                val intent = Intent(activity, LoginActivity::class.java)
+                startActivity(intent)
+                this.requireActivity().finish()
+            })
+            alert.setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
+            })
+            alert.create().show()
         }
 
         imgSetting.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CAMERA), REQ_IMAGE_CAPTURE)
             } else {
-                takePicture()
+                val takePictOptions = arrayOf<String>("Camera", "Gallery")
+                AlertDialog.Builder(activity)
+                    .setTitle("Ambil gambar melalui")
+                    .setItems(takePictOptions) { _, which-> when (which) {
+                        0 -> takePicture()
+                        1 -> pickImageGallery()
+                    } }
+                    .create()
+                    .show()
             }
         }
+
 
         btnSaveChanges.setOnClickListener {
             var inputFirstName = txtFirstNameSettings.text
