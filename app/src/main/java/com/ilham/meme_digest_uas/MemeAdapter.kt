@@ -35,7 +35,7 @@ class MemeAdapter( val memes: ArrayList<Meme>): RecyclerView.Adapter<MemeAdapter
         holder.v.txtTopText.text = memes[position].topText
         holder.v.txtBotText.text = memes[position].botText
         holder.v.btnLike.text = memes[position].likeCount.toString()+" Likes"
-        holder.v.btnComment.text = memes[position].totalComments.toString()+" Comments"
+//        holder.v.btnComment.text = memes[position].totalComments.toString()+" Comments"
         val posisi = position
         holder.v.btnLike.setOnClickListener {
             if (!memes[posisi].isLiked) {

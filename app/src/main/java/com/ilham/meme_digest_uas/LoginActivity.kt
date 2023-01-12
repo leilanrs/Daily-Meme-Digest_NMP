@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
                         editor.putString("USERNAME",userUsername)
                         editor.putString("FIRSTNAME",userFirstName)
                         editor.putString("LASTNAME",userLastName)
+                        editor.putString("AVATAR",userAvatar)
                         editor.putString("ACTIVEUSERID", userId)
                         editor.apply()
                         startActivity(intent)

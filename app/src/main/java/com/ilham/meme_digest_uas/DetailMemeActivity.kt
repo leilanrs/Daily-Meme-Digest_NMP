@@ -1,6 +1,7 @@
 package com.ilham.meme_digest_uas
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_meme.*
 import org.json.JSONObject
+
 
 class DetailMemeActivity : AppCompatActivity() {
     var memeArray:ArrayList<Meme> = ArrayList()
@@ -132,7 +134,7 @@ class DetailMemeActivity : AppCompatActivity() {
                     val obj = JSONObject(it)
                     if (obj.getString("result") == "success") {
                         Toast.makeText(this, "Comment added Successfully", Toast.LENGTH_SHORT).show()
-
+                        recreate()
                     }else{
                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                     }
@@ -152,7 +154,9 @@ class DetailMemeActivity : AppCompatActivity() {
             q.add(stringRequest)
         }
 
-        btnBackDetail.setOnClickListener { finish() }
+        btnBackDetail.setOnClickListener {
+            finish()
+        }
     }
 
     fun updateList() {
