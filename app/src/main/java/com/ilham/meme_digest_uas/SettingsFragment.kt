@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -25,6 +26,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import okio.ByteString
@@ -251,6 +253,9 @@ class SettingsFragment : Fragment() {
                     if (obj.getString("result") == "success") {
                         Toast.makeText(activity, "Update Success", Toast.LENGTH_SHORT).show()
                         txtFirstLastName.setText("$inputFirstName $inputLastName")
+                        var editor: SharedPreferences.Editor = shared.edit()
+                        editor.putString("FIRSTNAME",inputFirstName.toString())
+                        editor.putString("LASTNAME",inputLastName.toString())
                     }else{
                         Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                     }
@@ -274,6 +279,7 @@ class SettingsFragment : Fragment() {
             }
             q.add(stringRequest)
         }
+
     }
 
     companion object {

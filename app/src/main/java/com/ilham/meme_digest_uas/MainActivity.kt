@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         val header: View = navigationView.getHeaderView(0)
         header.txtUsernameDrawer.setText("@"+username)
         header.txtNameDrawer.setText(first_name+" "+last_name)
-//        Picasso.get().load(ava).into(header.imgAvaDrawer)
+        Picasso.get().load(ava).into(header.imgAvaDrawer)
         header.fabLogoutDrawer.setOnClickListener {
             val alert = android.app.AlertDialog.Builder(this)
             alert.setTitle("Daily Meme Digest")
@@ -97,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             })
             alert.create().show()
         }
-
 
     }
 }
