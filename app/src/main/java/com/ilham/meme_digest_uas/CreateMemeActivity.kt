@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.FragmentTransaction
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -51,6 +52,8 @@ class CreateMemeActivity : AppCompatActivity() {
                     val obj = JSONObject(it)
                     if (obj.getString("result") == "success") {
                         Toast.makeText(this, "New Meme Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
                         finish()
                     }
                 },
